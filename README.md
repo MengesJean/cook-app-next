@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍲 Cook App - Application de Recettes
 
-## Getting Started
+> **⚠️ PROJET EN COURS DE DÉVELOPPEMENT ⚠️**
 
-First, run the development server:
+Une application moderne de gestion et partage de recettes de cuisine, construite avec Next.js 15 et utilisant une API NestJS.
+
+## 📋 À propos
+
+Cook App est une plateforme complète permettant aux utilisateurs de découvrir, créer, partager et gérer leurs recettes préférées. L'application offre une expérience utilisateur fluide et intuitive, avec une architecture moderne basée sur les Server Components et Server Actions de Next.js.
+
+## 🚀 Fonctionnalités
+
+- **🔐 Authentification sécurisée** : Système d'authentification JWT avec refresh tokens
+- **📱 Responsive Design** : Interface adaptée à tous les appareils
+- **🔍 Recherche de recettes** : Filtres avancés par catégorie, ingrédients, temps de préparation
+- **👤 Profils utilisateurs** : Création et gestion de profils personnalisés
+- **❤️ Collection de favoris** : Sauvegarde des recettes préférées
+- **📝 Création de recettes** : Éditeur intuitif avec formatage riche
+- **🌙 Mode sombre** : Thème clair/sombre pour un confort de lecture optimal
+
+## 🛠️ Technologies
+
+- **Frontend** :
+
+  - Next.js 14 (App Router)
+  - React Server Components
+  - Server Actions
+  - Tailwind CSS
+  - TypeScript
+
+- **Backend** :
+  - API NestJS (TypeScript)
+  - Authentification JWT
+  - MySQL avec TypeORM
+
+## 🏗️ Architecture
+
+L'application est divisée en deux parties principales :
+
+1. **Frontend (cook-app-next)** : Application Next.js avec App Router
+
+   - Server Components pour le rendu côté serveur
+   - Server Actions pour les opérations de mutation
+   - Context API pour la gestion de session côté client
+
+2. **Backend (cook-app)** : API RESTful NestJS
+   - Architecture modulaire
+   - Authentification JWT avec refresh tokens
+   - Base de données relationnelle (MySQL)
+
+## 🚦 Installation et démarrage
+
+### Prérequis
+
+- Node.js 18+
+- MySQL
+
+### Configuration
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Cloner le dépôt
+git clone https://github.com/MengesJean/cook-app-next.git
+cd cook-app
+
+# Installer les dépendances (API)
+cd cook-app
+npm install
+
+# Installer les dépendances (Frontend)
+cd ../cook-app-next
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Variables d'environnement
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Créez un fichier `.env.development` dans le dossier `cook-app-next` :
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_API_URL=
+```
 
-## Learn More
+### Démarrage
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Terminal 1 : Démarrer l'API
+cd cook-app
+npm run start:dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Terminal 2 : Démarrer le frontend
+cd cook-app-next
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📚 Documentation
 
-## Deploy on Vercel
+Pour plus de détails sur les différentes parties de l'application :
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [Documentation d'authentification](./utils/auth/README.md)
+- [Documentation de l'API](../cook-app/src/api/user/auth/README.md)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔜 Roadmap
+
+- [ ] Système de commentaires sur les recettes
+- [ ] Partage sur les réseaux sociaux
+- [ ] Fonctionnalité d'impression des recettes
+- [ ] Application mobile (React Native)
+- [ ] Internationalisation (i18n)
+
+## 📝 License
+
+[MIT](LICENSE)

@@ -1,12 +1,12 @@
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 
-const Home = async () => {
+const Page = async () => {
   return (
     <Container>
-      <Heading tag={"h1"}>Home</Heading>
+      <Heading>Dashboard</Heading>
     </Container>
   );
 };
 
-export default Home;
+export default Page;
