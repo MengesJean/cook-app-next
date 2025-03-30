@@ -22,7 +22,7 @@ Cook App est une plateforme complète permettant aux utilisateurs de découvrir,
 
 - **Frontend** :
 
-  - Next.js 14 (App Router)
+  - Next.js 15 (App Router)
   - React Server Components
   - Server Actions
   - Tailwind CSS
