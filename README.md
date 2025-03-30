@@ -96,15 +96,7 @@ npm run dev
 Pour plus de détails sur les différentes parties de l'application :
 
 - [Documentation d'authentification](./utils/auth/README.md)
-- [Documentation de l'API](../cook-app/src/api/user/auth/README.md)
-
-## 🔜 Roadmap
-
-- [ ] Système de commentaires sur les recettes
-- [ ] Partage sur les réseaux sociaux
-- [ ] Fonctionnalité d'impression des recettes
-- [ ] Application mobile (React Native)
-- [ ] Internationalisation (i18n)
+- [Documentation de l'API](https://github.com/MengesJean/cook-app-api)
 
 ## 📝 License
 
