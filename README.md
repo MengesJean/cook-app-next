@@ -20,60 +20,40 @@ Cook App est une plateforme complète permettant aux utilisateurs de découvrir,
 
 ## 🛠️ Technologies
 
-- **Frontend** :
-
-  - Next.js 15 (App Router)
-  - React Server Components
-  - Server Actions
-  - Tailwind CSS
-  - TypeScript
-
-- **Backend** :
-  - API NestJS (TypeScript)
-  - Authentification JWT
-  - MySQL avec TypeORM
+- **Next.js 15 (App Router)**
+- **React Server Components**
+- **Server Actions**
+- **Tailwind CSS**
+- **TypeScript**
 
 ## 🏗️ Architecture
 
-L'application est divisée en deux parties principales :
+L'application utilise l'App Router de Next.js avec :
 
-1. **Frontend (cook-app-next)** : Application Next.js avec App Router
-
-   - Server Components pour le rendu côté serveur
-   - Server Actions pour les opérations de mutation
-   - Context API pour la gestion de session côté client
-
-2. **Backend (cook-app)** : API RESTful NestJS
-   - Architecture modulaire
-   - Authentification JWT avec refresh tokens
-   - Base de données relationnelle (MySQL)
+- Server Components pour le rendu côté serveur
+- Server Actions pour les opérations de mutation
+- Context API pour la gestion de session côté client
 
 ## 🚦 Installation et démarrage
 
 ### Prérequis
 
 - Node.js 18+
-- MySQL
 
 ### Configuration
 
 ```bash
 # Cloner le dépôt
 git clone https://github.com/MengesJean/cook-app-next.git
-cd cook-app
+cd cook-app-next
 
-# Installer les dépendances (API)
-cd cook-app
-npm install
-
-# Installer les dépendances (Frontend)
-cd ../cook-app-next
+# Installer les dépendances
 npm install
 ```
 
 ### Variables d'environnement
 
-Créez un fichier `.env.development` dans le dossier `cook-app-next` :
+Créez un fichier `.env.development` à la racine du projet :
 
 ```
 NEXT_PUBLIC_API_URL=
@@ -82,12 +62,7 @@ NEXT_PUBLIC_API_URL=
 ### Démarrage
 
 ```bash
-# Terminal 1 : Démarrer l'API
-cd cook-app
-npm run start:dev
-
-# Terminal 2 : Démarrer le frontend
-cd cook-app-next
+# Démarrer l'application
 npm run dev
 ```
 
