@@ -155,7 +155,7 @@ Pour accéder à la session dans un composant client, utilisez le hook `useSessi
 ```tsx
 "use client";
 
-import { useSession } from "../../utils/auth/useSession";
+import { useSession } from "@/utils/auth/useSession";
 
 export default function MonComposant() {
   const { user, isLoading, isAuthenticated, refresh, logout } = useSession();

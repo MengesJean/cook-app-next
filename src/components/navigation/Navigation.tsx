@@ -1,6 +1,6 @@
-import SwitchTheme from "../SwitchTheme";
-import UserProfileButton from "../UserProfileButton";
-import NavigationItems from "./NavigationItems";
+import SwitchTheme from "@/components/SwitchTheme";
+import UserProfileButton from "@/components/UserProfileButton";
+import NavigationItems from "@/components/navigation/NavigationItems";
 
 const Navigation = () => {
   return (

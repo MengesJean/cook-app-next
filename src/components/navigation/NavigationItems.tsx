@@ -1,6 +1,6 @@
+import NavigationItem from "@/components/navigation/NavigationItem";
+import NavigationItemWithAuth from "@/components/navigation/NavigationItemWithAuth";
 import { Fragment } from "react";
-import NavigationItem from "./NavigationItem";
-import NavigationItemWithAuth from "./NavigationItemWithAuth";
 
 export type NavItemType = {
   name: string;

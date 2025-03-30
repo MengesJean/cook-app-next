@@ -1,9 +1,9 @@
 "use client";
 
+import { useSession } from "@/utils/auth/useSession";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useSession } from "../../../utils/auth/useSession";
 
 type NavItemType = {
   name: string;

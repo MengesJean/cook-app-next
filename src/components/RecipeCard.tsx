@@ -1,4 +1,4 @@
-import { RecipeType } from "../../types/Recipe.type";
+import { RecipeType } from "@/types/Recipe.type";
 
 type RecipeCardProps = {
   recipe: RecipeType;

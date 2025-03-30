@@ -1,9 +1,9 @@
+import { getMyRecipes } from "@/actions/recipes.action";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import RecipeCard from "@/components/RecipeCard";
+import { RecipeType } from "@/types/Recipe.type";
 import { Fragment } from "react";
-import { getMyRecipes } from "../../../../actions/recipes.action";
-import { RecipeType } from "../../../../types/Recipe.type";
 
 const Page = async () => {
   const recipes: RecipeType[] | null = await getMyRecipes();

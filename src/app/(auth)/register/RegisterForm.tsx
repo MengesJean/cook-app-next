@@ -1,7 +1,7 @@
 "use client";
+import { register } from "@/actions/auth.action";
 import Button from "@/components/Button";
 import { useActionState, useRef } from "react";
-import { register } from "../../../../actions/auth.action";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(register, undefined);

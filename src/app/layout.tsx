@@ -1,8 +1,8 @@
 import Navigation from "@/components/navigation/Navigation";
+import { SessionProvider } from "@/utils/auth/useSession";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
-import { SessionProvider } from "../../utils/auth/useSession";
 import "./globals.css";
 
 const geistSans = Geist({

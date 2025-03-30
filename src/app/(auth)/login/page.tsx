@@ -1,6 +1,6 @@
+import LoginForm from "@/app/(auth)/login/LoginForm";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
-import LoginForm from "./LoginForm";
 
 const Page = async () => {
   return (

@@ -1,7 +1,7 @@
 "use client";
+import Button from "@/components/Button";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import Button from "./Button";
 
 const SwitchTheme = () => {
   const { theme, setTheme } = useTheme();

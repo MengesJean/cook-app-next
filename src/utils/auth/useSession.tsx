@@ -1,12 +1,12 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
 import {
   getCurrentUser,
   logout as serverLogout,
   SessionUser,
-} from "./session.actions";
+} from "@/utils/auth/session.actions";
+import { usePathname, useRouter } from "next/navigation";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type SessionContextType = {
   user: SessionUser | null;

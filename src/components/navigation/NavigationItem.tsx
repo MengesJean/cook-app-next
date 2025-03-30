@@ -1,5 +1,5 @@
+import { NavItemType } from "@/components/navigation/NavigationItems";
 import Link from "next/link";
-import { NavItemType } from "./NavigationItems";
 
 type NavigationItemProps = {
   navItem: NavItemType;

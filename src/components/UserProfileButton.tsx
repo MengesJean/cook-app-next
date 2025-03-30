@@ -1,8 +1,8 @@
 "use client";
 
+import Button from "@/components/Button";
+import { useSession } from "@/utils/auth/useSession";
 import Link from "next/link";
-import { useSession } from "../../utils/auth/useSession";
-import Button from "./Button";
 
 const UserProfileButton = () => {
   const { user, isLoading, isAuthenticated, logout } = useSession();

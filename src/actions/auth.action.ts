@@ -1,12 +1,12 @@
 "use server";
-import console from "console";
-import { redirect } from "next/navigation";
 import {
   LoginFormSchema,
   RegisterFormSchema,
   RegisterFormState,
-} from "../schemas/auth.schema";
-import { deleteSession, setSession } from "../utils/auth/session.actions";
+} from "@/schemas/auth.schema";
+import { deleteSession, setSession } from "@/utils/auth/session.actions";
+import console from "console";
+import { redirect } from "next/navigation";
 
 export const register = async (
   state: RegisterFormState,

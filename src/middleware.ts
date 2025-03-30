@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
 import {
   getAccessToken,
   getRefreshToken,
   refreshSession,
-} from "../utils/auth/session.actions";
+} from "@/utils/auth/session.actions";
+import { NextRequest, NextResponse } from "next/server";
 
 // Specify protected and public routes
 const protectedRoutes = ["/dashboard"];
