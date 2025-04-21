@@ -31,7 +31,7 @@ const privateNavItems: NavItemType[] = [
   },
   {
     name: "Mes livres",
-    slug: "/dashboard/books",
+    slug: "/dashboard/my-books",
   },
 ];
 // Composant qui gère l'affichage des liens de navigation

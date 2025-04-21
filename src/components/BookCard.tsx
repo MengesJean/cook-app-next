@@ -7,7 +7,7 @@ type BookCardProps = {
 
 const BookCard = ({ book }: BookCardProps) => {
   return (
-    <Link href={`/dashboard/books/${book.id}`} className="block">
+    <Link href={`/dashboard/my-books/${book.id}`} className="block">
       <div className="shadow bg-background px-6 py-4 rounded-md hover:shadow-md transition-shadow">
         <h2 className="text-xl font-bold mb-2">{book.title}</h2>
         <p className="mb-4 line-clamp-2">{book.description}</p>
