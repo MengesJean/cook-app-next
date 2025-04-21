@@ -1,5 +1,5 @@
-import RegisterForm from "@/app/(auth)/register/RegisterForm";
 import Container from "@/components/Container";
+import RegisterForm from "@/components/forms/RegisterForm";
 import Heading from "@/components/Heading";
 
 const Page = async () => {

@@ -1,5 +1,5 @@
-import LoginForm from "@/app/(auth)/login/LoginForm";
 import Container from "@/components/Container";
+import LoginForm from "@/components/forms/LoginForm";
 import Heading from "@/components/Heading";
 
 const Page = async () => {

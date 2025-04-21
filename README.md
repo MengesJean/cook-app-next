@@ -1,22 +1,20 @@
-# 🍲 Cook App - Application de Recettes
+# 🍲 Cook App - Recipe Application
 
-> **⚠️ PROJET EN COURS DE DÉVELOPPEMENT ⚠️**
+A modern recipe management and sharing application, built with Next.js 15 and using a NestJS API.
 
-Une application moderne de gestion et partage de recettes de cuisine, construite avec Next.js 15 et utilisant une API NestJS.
+## 📋 About
 
-## 📋 À propos
+Cook App is a comprehensive platform that allows users to discover, create, share, and manage their favorite recipes. The application offers a smooth and intuitive user experience, with a modern architecture based on Next.js Server Components and Server Actions.
 
-Cook App est une plateforme complète permettant aux utilisateurs de découvrir, créer, partager et gérer leurs recettes préférées. L'application offre une expérience utilisateur fluide et intuitive, avec une architecture moderne basée sur les Server Components et Server Actions de Next.js.
+## 🚀 Features
 
-## 🚀 Fonctionnalités
-
-- **🔐 Authentification sécurisée** : Système d'authentification JWT avec refresh tokens
-- **📱 Responsive Design** : Interface adaptée à tous les appareils
-- **🔍 Recherche de recettes** : Filtres avancés par catégorie, ingrédients, temps de préparation
-- **👤 Profils utilisateurs** : Création et gestion de profils personnalisés
-- **❤️ Collection de favoris** : Sauvegarde des recettes préférées
-- **📝 Création de recettes** : Éditeur intuitif avec formatage riche
-- **🌙 Mode sombre** : Thème clair/sombre pour un confort de lecture optimal
+- **🔐 Secure Authentication**: JWT authentication system with refresh tokens
+- **📱 Responsive Design**: Interface adapted to all devices
+- **🔍 Recipe Search**: Advanced filters by category, ingredients, preparation time
+- **👤 User Profiles**: Creation and management of personalized profiles
+- **❤️ Favorites Collection**: Save your favorite recipes
+- **📝 Recipe Creation**: Intuitive editor with rich formatting
+- **🌙 Dark Mode**: Light/dark theme for optimal reading comfort
 
 ## 🛠️ Technologies
 
@@ -28,50 +26,51 @@ Cook App est une plateforme complète permettant aux utilisateurs de découvrir,
 
 ## 🏗️ Architecture
 
-L'application utilise l'App Router de Next.js avec :
+The application uses Next.js App Router with:
 
-- Server Components pour le rendu côté serveur
-- Server Actions pour les opérations de mutation
-- Context API pour la gestion de session côté client
+- Server Components for server-side rendering
+- Server Actions for mutation operations
+- Context API for client-side session management
+- Custom hooks for form management
 
-## 🚦 Installation et démarrage
+## 🚦 Installation and Setup
 
-### Prérequis
+### Prerequisites
 
 - Node.js 18+
 
 ### Configuration
 
 ```bash
-# Cloner le dépôt
+# Clone the repository
 git clone https://github.com/MengesJean/cook-app-next.git
 cd cook-app-next
 
-# Installer les dépendances
+# Install dependencies
 npm install
 ```
 
-### Variables d'environnement
+### Environment Variables
 
-Créez un fichier `.env.development` à la racine du projet :
+Create a `.env.development` file at the root of the project:
 
 ```
 NEXT_PUBLIC_API_URL=
 ```
 
-### Démarrage
+### Starting the Application
 
 ```bash
-# Démarrer l'application
+# Start the application
 npm run dev
 ```
 
 ## 📚 Documentation
 
-Pour plus de détails sur les différentes parties de l'application :
+For more details on the different parts of the application, consult our documentation:
 
-- [Documentation d'authentification](./utils/auth/README.md)
-- [Documentation de l'API](https://github.com/MengesJean/cook-app-api)
+- [Authentication Documentation](./docs/AUTH.md) - Explains the JWT authentication system, Server Actions, and route protection
+- [Form Documentation](./docs/FORM.md) - Details the form architecture, useForm hook, and reusable components
 
 ## 📝 License
 

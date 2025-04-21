@@ -29,6 +29,10 @@ const privateNavItems: NavItemType[] = [
     name: "Mes recettes",
     slug: "/dashboard/my-recipes",
   },
+  {
+    name: "Mes livres",
+    slug: "/dashboard/books",
+  },
 ];
 // Composant qui gère l'affichage des liens de navigation
 const NavigationItems = () => {
