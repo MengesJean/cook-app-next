@@ -1,28 +1,33 @@
 import { getBookById } from "@/actions/books.action";
 import Container from "@/components/Container";
-import BookForm from "@/components/forms/BookForm";
 import Heading from "@/components/Heading";
-import { redirect } from "next/navigation";
+import BookForm from "@/components/forms/BookForm";
+import { notFound } from "next/navigation";
 
-interface EditBookPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function EditBookPage({ params }: EditBookPageProps) {
+export default async function EditBookPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = await params;
-  const bookData = await getBookById(id);
+  const book = await getBookById(id);
 
-  // Si le livre n'existe pas ou en cas d'erreur, rediriger vers la liste des livres
-  if (bookData.error) {
-    redirect("/dashboard/books");
+  if (!book) {
+    return notFound();
   }
 
   return (
     <Container>
-      <Heading>Modifier le livre</Heading>
-      <BookForm initialBook={bookData} isEditing={true} />
+      <div className="mb-6">
+        <Heading>Modifier le livre</Heading>
+        <p className="text-gray-600 dark:text-gray-400">
+          Modifiez les détails de votre livre de recettes
+        </p>
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+        <BookForm initialBook={book} isEditing={true} />
+      </div>
     </Container>
   );
 }

@@ -1,5 +1,7 @@
 import { BookType } from "@/types/Book.type";
+import { IngredientFormType } from "@/types/Ingredient.type";
 import { RecipeType } from "@/types/Recipe.type";
+import { StepType } from "@/types/Step.type";
 
 // Types génériques pour les résultats d'action
 export type ActionResult<T = undefined> =
@@ -15,6 +17,7 @@ export type ActionResult<T = undefined> =
 export type BookFormValues = {
   title: string;
   description: string;
+  isPublic: boolean;
 };
 
 export type BookFormAction = ActionResult<BookType>;
@@ -25,6 +28,8 @@ export type RecipeFormValues = {
   description: string;
   bookIds?: number[];
   isPublic?: boolean;
+  recipeIngredients?: IngredientFormType[];
+  steps?: StepType[];
 };
 
 export type RecipeFormAction = ActionResult<RecipeType>;

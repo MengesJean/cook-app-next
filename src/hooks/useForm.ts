@@ -79,7 +79,13 @@ export function useForm<T extends Record<string, unknown>>(initialValues: T) {
         // Gérer spécifiquement les booléens pour qu'ils soient correctement convertis
         if (typeof value === "boolean") {
           formData.append(key, value ? "true" : "false");
-        } else {
+        }
+        // Gérer les tableaux et objets en les convertissant en JSON
+        else if (typeof value === "object" && value !== null) {
+          formData.append(key, JSON.stringify(value));
+        }
+        // Pour les valeurs simples, les convertir en chaîne
+        else {
           formData.append(key, String(value));
         }
       }

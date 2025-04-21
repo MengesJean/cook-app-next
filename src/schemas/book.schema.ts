@@ -6,4 +6,8 @@ export const BookFormSchema = z.object({
     .string()
     .min(1, { message: "La description est requise." })
     .trim(),
+  isPublic: z
+    .any()
+    .optional()
+    .transform((val) => val === "true" || val === true),
 });

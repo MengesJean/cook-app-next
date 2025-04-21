@@ -1,9 +1,9 @@
-import { getPublicRecipeById } from "@/actions/recipes.action";
+import { getPublicBookById } from "@/actions/books.action";
 import Button from "@/components/Button";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
-import RecipeDetail from "@/components/RecipeDetail";
-import { BookType } from "@/types/Book.type";
+import RecipeCard from "@/components/RecipeCard";
+import { RecipeType } from "@/types/Recipe.type";
 import { getCurrentUser } from "@/utils/auth/session.actions";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -14,23 +14,23 @@ interface RecipePageProps {
   };
 }
 
-export default async function RecipePage({ params }: RecipePageProps) {
+export default async function BookPage({ params }: RecipePageProps) {
   const { id } = await params;
-  const recipeData = await getPublicRecipeById(id);
+  const bookData = await getPublicBookById(id);
   const session = await getCurrentUser();
 
-  if (recipeData.error) {
+  if (bookData.error) {
     // Rediriger vers la page des recettes en cas d'erreur
-    redirect("/recipes");
+    redirect("/books");
   }
 
   return (
     <Container>
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <Heading>{recipeData.title}</Heading>
+          <Heading>{bookData.title}</Heading>
           <div className="flex gap-2">
-            {recipeData.user?.id === session.user?.id && (
+            {bookData.user?.id === session.user?.id && (
               <Link href={`/dashboard/my-recipes/${id}/edit`}>
                 <Button variant="primary">Modifier</Button>
               </Link>
@@ -41,35 +41,25 @@ export default async function RecipePage({ params }: RecipePageProps) {
           </div>
         </div>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
-          {recipeData.description}
+          {bookData.description}
         </p>
         <div className="text-sm text-gray-500 dark:text-gray-400">
-          <p>Créé le {new Date(recipeData.createdAt).toLocaleDateString()}</p>
+          <p>Créé le {new Date(bookData.createdAt).toLocaleDateString()}</p>
           <p>
-            Mis à jour le {new Date(recipeData.updatedAt).toLocaleDateString()}
+            Mis à jour le {new Date(bookData.updatedAt).toLocaleDateString()}
           </p>
         </div>
       </div>
 
-      {/* Ajout du composant RecipeDetail pour afficher les ingrédients et étapes */}
-      <RecipeDetail recipe={recipeData} />
-
-      {recipeData.Books?.length > 0 && (
+      {bookData.recipes?.length > 0 && (
         <div className="mb-6 mt-10">
           <h2 className="text-2xl font-semibold mb-4">
             Livres contenant cette recette
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {recipeData.Books.map((book: BookType) => (
-              <Link
-                key={book.id}
-                href={`/dashboard/books/${book.id}`}
-                className="block p-4 rounded-md shadow bg-gray-50 dark:bg-gray-800 hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-semibold text-lg mb-1">{book.title}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                  {book.description}
-                </p>
+            {bookData.recipes.map((recipe: RecipeType) => (
+              <Link key={recipe.id} href={`/dashboard/books/${recipe.id}`}>
+                <RecipeCard recipe={recipe} />
               </Link>
             ))}
           </div>

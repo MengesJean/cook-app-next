@@ -9,6 +9,7 @@ import { BookType } from "@/types/Book.type";
 import { useRouter } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { toast } from "sonner";
+import Toggle from "./ui/Toggle";
 
 type BookFormProps = {
   initialBook?: BookType;
@@ -18,6 +19,7 @@ type BookFormProps = {
 const defaultValues: BookFormValues = {
   title: "",
   description: "",
+  isPublic: false,
 };
 
 const SubmitButton = ({ isEditing }: { isEditing?: boolean }) => {
@@ -45,6 +47,7 @@ export default function BookForm({
     ? {
         title: initialBook.title,
         description: initialBook.description,
+        isPublic: initialBook.isPublic,
       }
     : defaultValues;
 
@@ -66,17 +69,31 @@ export default function BookForm({
       toast.success(action.message);
 
       if (isEditing && initialBook?.id) {
-        router.push(`/dashboard/books/${initialBook.id}`);
+        router.push(`/dashboard/my-books/${initialBook.id}`);
       } else if (action.data?.id) {
-        router.push(`/dashboard/books/${action.data.id}`);
+        router.push(`/dashboard/my-books/${action.data.id}`);
       } else {
-        router.push("/dashboard/books");
+        router.push("/dashboard/my-books");
       }
     } else {
       setErrors(action.errors || {}, action.message);
       toast.error(action.message);
     }
   };
+  // Gestionnaire pour le toggle isPublic
+  const handleIsPublicChange = (checked: boolean) => {
+    const event = {
+      target: {
+        name: "isPublic",
+        value: checked,
+      },
+    } as unknown as React.ChangeEvent<HTMLInputElement>;
+
+    handleChange(event);
+  };
+  // S'assurer que isPublic est toujours un booléen pour le composant Toggle
+  const isPublicValue =
+    typeof state.values.isPublic === "boolean" ? state.values.isPublic : false;
 
   return (
     <form action={handleSubmit} className="space-y-4 max-w-md">
@@ -97,6 +114,16 @@ export default function BookForm({
         onChange={handleChange}
       />
 
+      <Toggle
+        id="isPublic"
+        name="isPublic"
+        label="Recette publique"
+        checked={isPublicValue}
+        errors={state.errors.isPublic}
+        hasError={Boolean(state.errors.isPublic?.length)}
+        onChange={handleIsPublicChange}
+      />
+
       {state.message &&
         state.errors &&
         Object.keys(state.errors).length > 0 && (
@@ -111,8 +138,8 @@ export default function BookForm({
           onClick={() =>
             router.push(
               isEditing && initialBook?.id
-                ? `/dashboard/books/${initialBook.id}`
-                : "/dashboard/books"
+                ? `/dashboard/my-books/${initialBook.id}`
+                : "/dashboard/my-books"
             )
           }
         >

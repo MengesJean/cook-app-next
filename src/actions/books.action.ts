@@ -5,8 +5,13 @@ import { BookFormAction } from "@/schemas/form.types";
 import { getAccessToken } from "../utils/auth/session.actions";
 
 export const getPublicBooks = async () => {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/book/public`);
-  return await data.json();
+  try {
+    const data = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/book/public`);
+    return await data.json();
+  } catch (error) {
+    console.error("Error fetching public books:", error);
+    return { items: [], total: 0, page: 1, limit: 10, pages: 1 };
+  }
 };
 
 export const getMyBooks = async () => {
@@ -62,6 +67,25 @@ export const getBookById = async (id: string) => {
   }
 };
 
+export const getPublicBookById = async (id: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/book/${id}/public`
+    );
+
+    if (!response.ok) {
+      return { error: "Impossible de récupérer le livre" };
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching book:", error);
+    return {
+      error: "Une erreur est survenue lors de la récupération du livre",
+    };
+  }
+};
+
 export const createBook = async (
   formData: FormData
 ): Promise<BookFormAction> => {
@@ -79,6 +103,7 @@ export const createBook = async (
     const validatedFields = BookFormSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
+      isPublic: formData.get("isPublic"),
     });
 
     if (!validatedFields.success) {
@@ -142,6 +167,7 @@ export const updateBook = async (
     const validatedFields = BookFormSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
+      isPublic: formData.get("isPublic"),
     });
 
     if (!validatedFields.success) {

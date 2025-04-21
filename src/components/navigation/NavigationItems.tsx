@@ -17,6 +17,10 @@ const publicNavItems: NavItemType[] = [
     name: "Recettes",
     slug: "/recipes",
   },
+  {
+    name: "Livres",
+    slug: "/books",
+  },
 ];
 
 // Liens accessibles uniquement aux utilisateurs connectés

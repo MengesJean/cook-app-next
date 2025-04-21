@@ -2,6 +2,8 @@
 
 import { RecipeFormAction } from "@/schemas/form.types";
 import { RecipeFormSchema } from "@/schemas/recipe.schema";
+import { IngredientType } from "@/types/Ingredient.type";
+import { StepType } from "@/types/Step.type";
 import { getAccessToken } from "../utils/auth/session.actions";
 
 export const getPublicRecipes = async () => {
@@ -99,12 +101,68 @@ export const createRecipe = async (
     const isPublicValue = formData.get("isPublic");
     const isPublic = isPublicValue === "true";
 
+    // Récupérer et parser les ingrédients et étapes
+    const ingredientsJson = formData.get("recipeIngredients");
+    const stepsJson = formData.get("steps");
+
+    // Analyser les ingrédients et étapes avec sécurité
+    let ingredients: IngredientType[] = [];
+    let steps: StepType[] = [];
+
+    try {
+      if (ingredientsJson) {
+        if (typeof ingredientsJson === "string") {
+          ingredients = JSON.parse(ingredientsJson);
+        } else if (Array.isArray(ingredientsJson)) {
+          // Si c'est déjà un tableau, utiliser directement
+          ingredients = ingredientsJson;
+        } else {
+          console.warn(
+            "ingredientsJson n'est pas une chaîne ou un tableau, conversion forcée"
+          );
+          ingredients = JSON.parse(String(ingredientsJson));
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing des ingrédients:", error);
+    }
+
+    try {
+      if (stepsJson) {
+        if (typeof stepsJson === "string") {
+          steps = JSON.parse(stepsJson);
+        } else if (Array.isArray(stepsJson)) {
+          // Si c'est déjà un tableau, utiliser directement
+          steps = stepsJson;
+        } else {
+          console.warn(
+            "stepsJson n'est pas une chaîne ou un tableau, conversion forcée"
+          );
+          steps = JSON.parse(String(stepsJson));
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing des étapes:", error);
+    }
+
+    console.log("Ingrédients à envoyer:", ingredients);
+    console.log("Étapes à envoyer:", steps);
+
+    // Validation de base des champs du formulaire
     const validatedFields = RecipeFormSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
       bookIds: formData.get("bookIds"),
       isPublic: isPublic,
+      recipeIngredients: ingredients,
+      steps: steps,
     });
+
+    console.log("Validated fields:", validatedFields);
+    console.log(
+      "Ingredients after validation:",
+      validatedFields.success ? validatedFields.data.recipeIngredients : []
+    );
 
     if (!validatedFields.success) {
       return {
@@ -113,6 +171,38 @@ export const createRecipe = async (
         message: "Champs invalides. Échec de la création de la recette.",
       };
     }
+    console.log("validatedFields", validatedFields);
+    // Formater les données pour l'API
+    const payload = {
+      title: validatedFields.data.title,
+      description: validatedFields.data.description,
+      isPublic: validatedFields.data.isPublic,
+      bookIds: validatedFields.data.bookIds,
+      ingredients: validatedFields.data.recipeIngredients?.map((ingredient) => {
+        // Si ingredient_id est 0, on le supprime pour créer un nouvel ingrédient
+        if (ingredient.ingredient_id === 0) {
+          return {
+            name: ingredient.name,
+            quantity: ingredient.quantity,
+            unit: ingredient.unit,
+            order: ingredient.order,
+          };
+        }
+        return {
+          ingredient_id: ingredient.ingredient_id,
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          order: ingredient.order,
+        };
+      }),
+      steps: validatedFields.data.steps?.map((step: StepType) => ({
+        content: step.content,
+        order: step.order,
+      })),
+    };
+
+    console.log("Payload envoyé à l'API:", JSON.stringify(payload, null, 2));
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recipe`, {
       method: "POST",
@@ -120,24 +210,30 @@ export const createRecipe = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(validatedFields.data),
+      body: JSON.stringify(payload),
     });
 
+    // Vérifier la réponse brute pour diagnostiquer les problèmes
+    const responseText = await response.text();
+    let responseData = null;
+    try {
+      responseData = JSON.parse(responseText);
+    } catch {
+      console.error("Réponse non-JSON:", responseText);
+    }
+
     if (!response.ok) {
-      const errorData = await response.json();
       return {
         success: false,
-        message: errorData.message || "Échec de la création de la recette",
+        message: responseData?.message || "Échec de la création de la recette",
         errors: {},
       };
     }
 
-    // Récupérer l'objet créé avec son ID
-    const createdRecipe = await response.json();
     return {
       success: true,
       message: "Recette créée avec succès",
-      data: createdRecipe,
+      data: responseData,
     };
   } catch (error) {
     console.error("Error creating recipe:", error);
@@ -168,12 +264,68 @@ export const updateRecipe = async (
     const isPublicValue = formData.get("isPublic");
     const isPublic = isPublicValue === "true";
 
+    // Récupérer et parser les ingrédients et étapes
+    const ingredientsJson = formData.get("recipeIngredients");
+    const stepsJson = formData.get("steps");
+
+    // Analyser les ingrédients et étapes avec sécurité
+    let ingredients: IngredientType[] = [];
+    let steps: StepType[] = [];
+
+    try {
+      if (ingredientsJson) {
+        if (typeof ingredientsJson === "string") {
+          ingredients = JSON.parse(ingredientsJson);
+        } else if (Array.isArray(ingredientsJson)) {
+          // Si c'est déjà un tableau, utiliser directement
+          ingredients = ingredientsJson;
+        } else {
+          console.warn(
+            "ingredientsJson n'est pas une chaîne ou un tableau, conversion forcée"
+          );
+          ingredients = JSON.parse(String(ingredientsJson));
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing des ingrédients:", error);
+    }
+
+    try {
+      if (stepsJson) {
+        if (typeof stepsJson === "string") {
+          steps = JSON.parse(stepsJson);
+        } else if (Array.isArray(stepsJson)) {
+          // Si c'est déjà un tableau, utiliser directement
+          steps = stepsJson;
+        } else {
+          console.warn(
+            "stepsJson n'est pas une chaîne ou un tableau, conversion forcée"
+          );
+          steps = JSON.parse(String(stepsJson));
+        }
+      }
+    } catch (error) {
+      console.error("Erreur lors du parsing des étapes:", error);
+    }
+
+    console.log("Ingrédients à mettre à jour:", ingredients);
+    console.log("Étapes à mettre à jour:", steps);
+
+    // Validation de base des champs du formulaire
     const validatedFields = RecipeFormSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
       bookIds: formData.get("bookIds"),
       isPublic: isPublic,
+      recipeIngredients: ingredients,
+      steps: steps,
     });
+
+    console.log("Validated fields:", validatedFields);
+    console.log(
+      "Ingredients after validation:",
+      validatedFields.success ? validatedFields.data.recipeIngredients : []
+    );
 
     if (!validatedFields.success) {
       return {
@@ -183,6 +335,46 @@ export const updateRecipe = async (
       };
     }
 
+    // Formater les données pour l'API
+    const payload = {
+      title: validatedFields.data.title,
+      description: validatedFields.data.description,
+      isPublic: validatedFields.data.isPublic,
+      bookIds: validatedFields.data.bookIds,
+      ingredients: validatedFields.data.recipeIngredients?.map((ingredient) => {
+        // Si ingredient_id est 0, on le supprime pour créer un nouvel ingrédient
+        if (ingredient.ingredient_id === 0) {
+          return {
+            name: ingredient.name,
+            quantity: ingredient.quantity,
+            unit: ingredient.unit,
+            order: ingredient.order,
+          };
+        }
+        return {
+          ingredient_id: ingredient.ingredient_id,
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          order: ingredient.order,
+        };
+      }),
+      steps: validatedFields.data.steps?.map((step: StepType) => {
+        const result = {
+          content: step.content,
+          order: step.order,
+        } as StepType;
+
+        if (step.id && step.id > 0) {
+          result.id = step.id;
+        }
+
+        return result;
+      }),
+    };
+
+    console.log("Payload envoyé à l'API:", JSON.stringify(payload, null, 2));
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/recipe/${id}`,
       {
@@ -191,25 +383,32 @@ export const updateRecipe = async (
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify(validatedFields.data),
+        body: JSON.stringify(payload),
       }
     );
 
+    // Vérifier la réponse brute pour diagnostiquer les problèmes
+    const responseText = await response.text();
+    let responseData = null;
+    try {
+      responseData = JSON.parse(responseText);
+    } catch {
+      console.error("Réponse non-JSON:", responseText);
+    }
+
     if (!response.ok) {
-      const errorData = await response.json();
       return {
         success: false,
-        message: errorData.message || "Échec de la modification de la recette",
+        message:
+          responseData?.message || "Échec de la modification de la recette",
         errors: {},
       };
     }
 
-    // Pour la cohérence, récupérons aussi les données mises à jour
-    const updatedRecipe = await response.json();
     return {
       success: true,
       message: "Recette modifiée avec succès",
-      data: updatedRecipe,
+      data: responseData,
     };
   } catch (error) {
     console.error("Error updating recipe:", error);

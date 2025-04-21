@@ -3,70 +3,94 @@ import Button from "@/components/Button";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import { BookType } from "@/types/Book.type";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { IngredientRecipeType } from "@/types/Ingredient.type";
+import { StepType } from "@/types/Step.type";
+import { notFound } from "next/navigation";
 
-interface RecipePageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function RecipePage({ params }: RecipePageProps) {
+export default async function RecipeDetailsPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = await params;
-  const recipeData = await getRecipeById(id);
+  const recipe = await getRecipeById(id);
 
-  if (recipeData.error) {
-    // Rediriger vers la page des recettes en cas d'erreur
-    redirect("/dashboard/my-recipes");
+  if (!recipe) {
+    return notFound();
   }
 
   return (
     <Container>
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <Heading>{recipeData.title}</Heading>
-          <div className="flex gap-2">
-            <Link href={`/dashboard/my-recipes/${id}/edit`}>
-              <Button variant="primary">Modifier</Button>
-            </Link>
-            <Link href="/dashboard/my-recipes">
-              <Button variant="secondary">Retour</Button>
-            </Link>
-          </div>
-        </div>
-        <p className="text-gray-700 dark:text-gray-300 mb-4">
-          {recipeData.description}
-        </p>
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          <p>Créé le {new Date(recipeData.createdAt).toLocaleDateString()}</p>
-          <p>
-            Mis à jour le {new Date(recipeData.updatedAt).toLocaleDateString()}
-          </p>
+      <div className="flex justify-between items-center mb-5">
+        <Heading>{recipe.title}</Heading>
+        <div className="flex space-x-4">
+          <Button href={`/dashboard/my-recipes/${recipe.id}/edit`}>
+            Modifier
+          </Button>
         </div>
       </div>
 
-      {recipeData.Books?.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-4">
-            Livres contenant cette recette
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {recipeData.Books.map((book: BookType) => (
-              <Link
-                key={book.id}
-                href={`/dashboard/books/${book.id}`}
-                className="block p-4 rounded-md shadow bg-gray-50 dark:bg-gray-800 hover:shadow-md transition-shadow"
-              >
-                <h3 className="font-semibold text-lg mb-1">{book.title}</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                  {book.description}
-                </p>
-              </Link>
-            ))}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">
+                {recipe.isPublic ? "Public" : "Privé"}
+              </p>
+            </div>
           </div>
+
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-2">Description</h3>
+            <p className="text-gray-700 dark:text-gray-300">
+              {recipe.description}
+            </p>
+          </div>
+
+          {recipe.recipeIngredients && recipe.recipeIngredients.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Ingrédients</h3>
+              <ul className="list-disc pl-5 space-y-1">
+                {recipe.recipeIngredients.map(
+                  (item: IngredientRecipeType, index: number) => (
+                    <li key={index}>
+                      {item.quantity} {item.unit} {item.ingredient?.name}
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+          )}
+
+          {recipe.steps && recipe.steps.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Étapes</h3>
+              <ol className="list-decimal pl-5 space-y-2">
+                {recipe.steps
+                  .sort((a: StepType, b: StepType) => a.order - b.order)
+                  .map((step: StepType, index: number) => (
+                    <li key={index} className="pl-2">
+                      {step.content}
+                    </li>
+                  ))}
+              </ol>
+            </div>
+          )}
+
+          {recipe.books && recipe.books.length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Livres</h3>
+              <div className="flex flex-wrap gap-2">
+                {recipe.books.map((book: BookType) => (
+                  <Button key={book.id} href={`/dashboard/my-books/${book.id}`}>
+                    {book.title}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </Container>
   );
 }

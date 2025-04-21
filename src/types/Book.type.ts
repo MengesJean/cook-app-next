@@ -7,6 +7,7 @@ export type BookType = {
   recipes?: RecipeType[];
   createdAt: Date;
   updated: Date;
+  isPublic: boolean;
 };
 
 export type BooksResponseType = {

@@ -1,28 +1,33 @@
 import { getRecipeById } from "@/actions/recipes.action";
 import Container from "@/components/Container";
-import RecipeForm from "@/components/forms/RecipeForm";
 import Heading from "@/components/Heading";
-import { redirect } from "next/navigation";
+import RecipeForm from "@/components/forms/RecipeForm";
+import { notFound } from "next/navigation";
 
-interface EditRecipePageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function EditRecipePage({ params }: EditRecipePageProps) {
+export default async function EditRecipePage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = await params;
-  const recipeData = await getRecipeById(id);
+  const recipe = await getRecipeById(id);
 
-  // Si la recette n'existe pas ou en cas d'erreur, rediriger vers la liste des recettes
-  if (recipeData.error) {
-    redirect("/dashboard/my-recipes");
+  if (!recipe) {
+    return notFound();
   }
 
   return (
     <Container>
-      <Heading>Modifier la recette</Heading>
-      <RecipeForm initialRecipe={recipeData} isEditing={true} />
+      <div className="mb-6">
+        <Heading>Modifier la recette</Heading>
+        <p className="text-gray-600 dark:text-gray-400">
+          Modifiez les détails de votre recette
+        </p>
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
+        <RecipeForm initialRecipe={recipe} isEditing={true} />
+      </div>
     </Container>
   );
 }
