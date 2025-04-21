@@ -20,7 +20,7 @@ export default async function BookPage({ params }: PageProps) {
 
   if (bookData.error) {
     // Rediriger vers la page des livres en cas d'erreur
-    redirect("/dashboard/books");
+    redirect("/dashboard/my-books");
   }
 
   return (
@@ -29,10 +29,10 @@ export default async function BookPage({ params }: PageProps) {
         <div className="flex items-center justify-between mb-4">
           <Heading>{bookData.title}</Heading>
           <div className="flex gap-2">
-            <Link href={`/dashboard/books/${id}/edit`}>
+            <Link href={`/dashboard/my-books/${id}/edit`}>
               <Button variant="primary">Modifier</Button>
             </Link>
-            <Link href="/dashboard/books">
+            <Link href="/dashboard/my-books">
               <Button variant="secondary">Retour</Button>
             </Link>
           </div>

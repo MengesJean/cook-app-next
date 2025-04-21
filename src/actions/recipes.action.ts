@@ -62,6 +62,25 @@ export const getRecipeById = async (id: string) => {
   }
 };
 
+export const getPublicRecipeById = async (id: string) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/recipe/${id}/public`
+    );
+
+    if (!response.ok) {
+      return { error: "Impossible de récupérer la recette" };
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+    return {
+      error: "Une erreur est survenue lors de la récupération de la recette",
+    };
+  }
+};
+
 export const createRecipe = async (
   formData: FormData
 ): Promise<RecipeFormAction> => {
@@ -76,9 +95,15 @@ export const createRecipe = async (
       };
     }
 
+    // Assurons-nous que isPublic est correctement traité comme un booléen
+    const isPublicValue = formData.get("isPublic");
+    const isPublic = isPublicValue === "true";
+
     const validatedFields = RecipeFormSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
+      bookIds: formData.get("bookIds"),
+      isPublic: isPublic,
     });
 
     if (!validatedFields.success) {
@@ -139,9 +164,15 @@ export const updateRecipe = async (
       };
     }
 
+    // Assurons-nous que isPublic est correctement traité comme un booléen
+    const isPublicValue = formData.get("isPublic");
+    const isPublic = isPublicValue === "true";
+
     const validatedFields = RecipeFormSchema.safeParse({
       title: formData.get("title"),
       description: formData.get("description"),
+      bookIds: formData.get("bookIds"),
+      isPublic: isPublic,
     });
 
     if (!validatedFields.success) {

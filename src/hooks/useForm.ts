@@ -76,7 +76,12 @@ export function useForm<T extends Record<string, unknown>>(initialValues: T) {
 
     Object.entries(state.values).forEach(([key, value]) => {
       if (value !== undefined) {
-        formData.append(key, String(value));
+        // Gérer spécifiquement les booléens pour qu'ils soient correctement convertis
+        if (typeof value === "boolean") {
+          formData.append(key, value ? "true" : "false");
+        } else {
+          formData.append(key, String(value));
+        }
       }
     });
 

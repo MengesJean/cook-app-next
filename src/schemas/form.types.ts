@@ -23,6 +23,8 @@ export type BookFormAction = ActionResult<BookType>;
 export type RecipeFormValues = {
   title: string;
   description: string;
+  bookIds?: number[];
+  isPublic?: boolean;
 };
 
 export type RecipeFormAction = ActionResult<RecipeType>;

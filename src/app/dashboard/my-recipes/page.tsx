@@ -5,7 +5,6 @@ import Heading from "@/components/Heading";
 import RecipeCard from "@/components/RecipeCard";
 import { RecipeType } from "@/types/Recipe.type";
 import Link from "next/link";
-import { Fragment } from "react";
 
 const Page = async () => {
   const recipes: RecipeType[] | null = await getMyRecipes();
@@ -21,9 +20,13 @@ const Page = async () => {
       {recipes && recipes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {recipes.map((item: RecipeType) => (
-            <Fragment key={item.id}>
+            <Link
+              href={`/dashboard/my-recipes/${item.id}`}
+              className="block"
+              key={item.id}
+            >
               <RecipeCard recipe={item} />
-            </Fragment>
+            </Link>
           ))}
         </div>
       ) : (

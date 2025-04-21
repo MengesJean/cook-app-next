@@ -4,7 +4,8 @@ export type RecipeType = {
   id?: number;
   title: string;
   description: string;
-  Books: BookType[];
+  isPublic: boolean;
+  books: BookType[];
   createdAt: Date;
   updated: Date;
 };
